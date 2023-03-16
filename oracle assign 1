@@ -1,0 +1,91 @@
+create table department4(
+deptno int primary key,
+deptname varchar(20) unique,
+floor number(2),
+location varchar(20)
+);
+
+desc department4
+
+create table employee6(
+empno number(10) primary key,
+managerid number(3),
+firstname varchar(20),
+lasttname varchar(20),
+userid varchar(20),
+deptno number(2),
+salary number(5,2),
+commission number(3),
+joiningdate date,
+designation varchar(25),
+constraint fk_07 foreign key (deptno) references department4 (deptno) on delete cascade);
+desc employee6
+
+alter table employee6 add HRA number(5,2)
+alter table employee6 add PF number(5,2) check(PF<5000)
+
+create table customer(
+custno number(3)  primary key,
+custname varchar(20),
+address varchar(40)
+);
+desc customer
+ 
+create table order2(
+orderno number(3) primary key,
+custno number(3),
+orderdate date,
+constraint fk_09 foreign key(custno) references customer(custno) 
+on delete cascade);
+desc order2
+
+create table orderitem(
+itemid number(3) primary key,
+orderno number(3),
+itemname varchar(20),
+quantity number(2),
+constraint fk_08 foreign key(orderno) references order2(orderno)
+on delete cascade);
+desc orderitem
+
+alter table customer modify address varchar(100);
+
+
+create table Course7(
+  courseId varchar2(5) primary key not null,
+  streamId varchar2(20),
+  title varchar2(40),
+  description varchar2(200),
+  fees number
+  );
+
+desc course7
+
+create table batch7(
+  BatchId varchar2(30) primary key not null,
+  courseId varchar2(5),
+  BatchName char(1),
+  constraint fk_10 foreign key(courseId) references course7(courseId));
+
+desc batch7
+
+create table student8(
+  studId varchar2(20) primary key not null,
+  batchId varchar2(30),
+  LastName varchar2(25),
+  MiddleName varchar2(30),
+  FirstName varchar2(20),
+  Dob date,
+  Address varchar2(50),
+  City varchar2(20),
+  State varchar2(2),
+  Zipcode varchar2(9),
+  Telephone varchar2(10),
+  Fax varchar2(10),
+  Email varchar2(30),
+  Grade char(1),
+  constraint fk_11 foreign key(BatchId) references batch7(BatchId)
+);
+desc student8
+
+alter table student8 add constraint grade check(grade in ('A','A+','A-','B','B+','B-','C','C+','C-','D','D+','D-','F','F+','F-'));
